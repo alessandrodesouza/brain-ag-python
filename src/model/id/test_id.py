@@ -20,3 +20,13 @@ class TestId(unittest.TestCase):
         self.assertIsInstance(id_instance, Id)
         self.assertIsInstance(id_instance.value, str)
         self.assertEqual(uuid.UUID(id_instance.value).version, 4)
+
+    def test_try_parse_valid(self):
+        valid_uuid = '123e4567-e89b-12d3-a456-426614174000'
+        result = Id.try_parse(valid_uuid)
+        self.assertTrue(result)
+
+    def test_try_parse_invalid(self):
+        invalid_uuid = 'invalid-uuid-string'
+        result = Id.try_parse(invalid_uuid)
+        self.assertFalse(result)

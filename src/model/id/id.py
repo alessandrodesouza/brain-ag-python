@@ -17,6 +17,14 @@ class Id:
         new_uuid = uuid.uuid4()
         return Id(str(new_uuid))
 
+    @staticmethod
+    def try_parse(value: str) -> bool:
+        try:
+            Id(value)
+            return True
+        except InvalidIdError:
+            return False
+
     @property
     def value(self) -> str:
         return self._value
