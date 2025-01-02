@@ -1,9 +1,12 @@
 from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
-from src.model.document.document import Document
 from src.model.entity import Entity
-from src.model.id.id import Id
+from src.model.types.id.id import Id
+from src.model.types.document.document import Document
+from src.model.types.name.name import Name
+from src.model.farmer.farmer_parser_error import FarmerParserError
+from src.model.farmer.farmer_update_error import FarmerUpdateError
 from src.model.farmer.farmer_create_error import FarmerCreateError
 
 class FarmerModel(BaseModel):
@@ -27,9 +30,13 @@ class FarmerModel(BaseModel):
 
     @field_validator("name")
     def validate_and_format_name(cls, value):
-        if not isinstance(value, str) or not (1 <= len(value) <= 255):
+        if value is None:
+            return value
+        if not isinstance(value, str):
             raise ValueError("Name must be a string with length between 1 and 255 characters")
-        return value.upper() 
+        if not Name.try_parse(value):
+            raise ValueError("Name must be a string with length between 1 and 255 characters")
+        return Name(value).value
 
     @field_validator("document")
     def validate_document(cls, value):
@@ -66,17 +73,20 @@ class Farmer(Entity):
             validated_data = FarmerModel(id=id, document=document, name=name, created_at=created_at, updated_at=updated_at)
         except ValidationError as e:
             error_messages = [f"{err['loc'][0]}.invalid" for err in e.errors()]
-            raise FarmerCreateError(messages=error_messages)
+            raise FarmerParserError(messages=error_messages)
         
-        self._id = id if id is not None else Id.create_new()
+        self._id = Id(id) if id is not None else Id.create_new()
         self._document = Document(validated_data.document)
-        self._name = validated_data.name
+        self._name = Name(validated_data.name)
         self._created_at = validated_data.created_at
         self._updated_at = validated_data.updated_at
 
     @staticmethod
     def create_new(document: str, name: str) -> 'Farmer':
-        return Farmer(document=document, name=name)
+        try:
+            return Farmer(document=document, name=name)
+        except FarmerParserError as e:
+            raise FarmerCreateError(messages=e.messages)
 
     def update(self, document: str, name: str) -> None:
         errors = []
@@ -91,10 +101,10 @@ class Farmer(Entity):
             errors.append("name.invalid")
 
         if errors:
-            raise FarmerCreateError(messages=errors)
+            raise FarmerUpdateError(messages=errors)
         
         self._document = Document(document)
-        self._name = name
+        self._name = Name(name)
         self._updated_at = datetime.now()
     
     @property
@@ -106,7 +116,7 @@ class Farmer(Entity):
         return self._document
 
     @property
-    def name(self) -> str:
+    def name(self) -> Name:
         return self._name
 
     @property

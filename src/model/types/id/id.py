@@ -1,5 +1,5 @@
 import uuid
-from src.model.id.invalid_id_error import InvalidIdError
+from src.model.types.id.invalid_id_error import InvalidIdError
 
 class Id:
     def __init__(self, value: str):

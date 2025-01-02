@@ -1,6 +1,6 @@
 import unittest
-from src.model.document.document import Document
-from src.model.document.invalid_document_error import InvalidDocumentError
+from src.model.types.document.document import Document
+from src.model.types.document.invalid_document_error import InvalidDocumentError
 
 class TestDocument(unittest.TestCase):
     def test_valid_cpf(self):
@@ -50,3 +50,6 @@ class TestDocument(unittest.TestCase):
     def test_try_parse_invalid_cnpj(self):
         invalid_cnpj = 'invalid_cnpj'
         self.assertFalse(Document.try_parse(invalid_cnpj))
+
+if __name__ == '__main__':
+    unittest.main()

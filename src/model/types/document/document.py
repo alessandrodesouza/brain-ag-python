@@ -1,5 +1,5 @@
 import re
-from src.model.document.invalid_document_error import InvalidDocumentError
+from src.model.types.document.invalid_document_error import InvalidDocumentError
 
 
 def is_valid_cpf(cpf: str) -> bool:

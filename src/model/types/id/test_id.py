@@ -1,7 +1,7 @@
 import unittest
 import uuid
-from src.model.id.id import Id
-from src.model.id.invalid_id_error import InvalidIdError
+from src.model.types.id.id import Id
+from src.model.types.id.invalid_id_error import InvalidIdError
 
 class TestId(unittest.TestCase):
     def test_valid_uuid(self):
@@ -30,3 +30,6 @@ class TestId(unittest.TestCase):
         invalid_uuid = 'invalid-uuid-string'
         result = Id.try_parse(invalid_uuid)
         self.assertFalse(result)
+
+if __name__ == '__main__':
+    unittest.main()
