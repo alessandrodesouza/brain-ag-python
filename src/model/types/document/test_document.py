@@ -35,17 +35,37 @@ class TestDocument(unittest.TestCase):
             Document(invalid_cnpj)
         self.assertEqual(context.exception.message, 'document.invalid')
 
+    def test_parse_valid_cpf(self):
+        valid_cpf = '12345678909'
+        document = Document.parse(valid_cpf)    
+        self.assertEqual(document.value, valid_cpf)
+
     def test_try_parse_valid_cpf(self):
         valid_cpf = '12345678909'
         self.assertTrue(Document.try_parse(valid_cpf))
+
+    def test_parse_invalid_cpf(self):
+        invalid_cpf = '12345678900'
+        with self.assertRaises(InvalidDocumentError):
+            Document.parse(invalid_cpf)
 
     def test_try_parse_invalid_cpf(self):
         invalid_cpf = '12345678900'
         self.assertFalse(Document.try_parse(invalid_cpf))
 
+    def test_parse_valid_cnpj(self):
+        valid_cnpj = '12345678000195'
+        document = Document.parse(valid_cnpj)
+        self.assertEqual(document.value, valid_cnpj)
+
     def test_try_parse_valid_cnpj(self):
         valid_cnpj = '12345678000195'
         self.assertTrue(Document.try_parse(valid_cnpj))
+
+    def test_parse_invalid_cnpj(self):
+        invalid_cnpj = 'invalid_cnpj'
+        with self.assertRaises(InvalidDocumentError):
+            Document.parse(invalid_cnpj)
 
     def test_try_parse_invalid_cnpj(self):
         invalid_cnpj = 'invalid_cnpj'

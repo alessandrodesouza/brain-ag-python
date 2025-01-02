@@ -51,6 +51,10 @@ class Document:
             raise InvalidDocumentError()
 
     @staticmethod
+    def parse(value: str) -> 'Document':
+        return Document(value)
+
+    @staticmethod
     def try_parse(value: str) -> bool:
         try:
             Document(value)
