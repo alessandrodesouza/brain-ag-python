@@ -1,6 +1,6 @@
 import unittest
-from src.model.types.document.document import Document
-from src.model.types.document.invalid_document_error import InvalidDocumentError
+from src.app.model.types.document.document import Document
+from src.app.model.types.document.invalid_document_error import InvalidDocumentError
 
 class TestDocument(unittest.TestCase):
     def test_valid_cpf(self):

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from src.model.types.id.id import Id
+from src.app.model.types.id.id import Id
 
 class Entity(ABC):
     @property

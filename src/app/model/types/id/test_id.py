@@ -1,7 +1,7 @@
 import unittest
 import uuid
-from src.model.types.id.id import Id
-from src.model.types.id.invalid_id_error import InvalidIdError
+from src.app.model.types.id.id import Id
+from src.app.model.types.id.invalid_id_error import InvalidIdError
 
 class TestId(unittest.TestCase):
     def test_valid_uuid(self):

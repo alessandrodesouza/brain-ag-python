@@ -1,12 +1,12 @@
 import unittest
 from datetime import datetime
-from src.model.farmer.farmer_parser_error import FarmerParserError
-from src.model.farmer.farmer_update_error import FarmerUpdateError
-from src.model.types.document.document import Document
-from src.model.types.id.id import Id
-from src.model.farmer.farmer import Farmer
-from src.model.farmer.farmer_create_error import FarmerCreateError
-from src.model.types.name.name import Name
+from src.app.model.farmer.farmer_parser_error import FarmerParserError
+from src.app.model.farmer.farmer_update_error import FarmerUpdateError
+from src.app.model.types.document.document import Document
+from src.app.model.types.id.id import Id
+from src.app.model.farmer.farmer import Farmer
+from src.app.model.farmer.farmer_create_error import FarmerCreateError
+from src.app.model.types.name.name import Name
 
 class TestFarmer(unittest.TestCase):
     def setUp(self):
@@ -36,7 +36,7 @@ class TestFarmer(unittest.TestCase):
             Farmer(id=self.id, document=self.invalid_document, name=self.name, created_at=self.created_at, updated_at=self.updated_at)
 
         self.assertIn("document.invalid", context.exception.messages)
-        self.assertEquals(len(context.exception.messages), 1)
+        self.assertEqual(len(context.exception.messages), 1)
 
     def test_create_new_valid_farmer(self):
         farmer = Farmer.create_new(document=self.document, name=self.name)

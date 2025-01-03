@@ -1,13 +1,13 @@
 from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
-from src.model.entity import Entity
-from src.model.types.id.id import Id
-from src.model.types.document.document import Document
-from src.model.types.name.name import Name
-from src.model.farmer.farmer_parser_error import FarmerParserError
-from src.model.farmer.farmer_update_error import FarmerUpdateError
-from src.model.farmer.farmer_create_error import FarmerCreateError
+from src.app.model.entity import Entity
+from src.app.model.types.id.id import Id
+from src.app.model.types.document.document import Document
+from src.app.model.types.name.name import Name
+from src.app.model.farmer.farmer_parser_error import FarmerParserError
+from src.app.model.farmer.farmer_update_error import FarmerUpdateError
+from src.app.model.farmer.farmer_create_error import FarmerCreateError
 
 class FarmerModel(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
